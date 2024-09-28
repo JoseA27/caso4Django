@@ -102,6 +102,9 @@ DATABASES = {
             "port": int(MONGO_PORT),
             "username": MONGO_USER,
             "password": MONGO_PASSWORD,
+            "maxPoolSize": 20,  # Número máximo de conexiones en el pool
+            "minPoolSize": 5,   # Número mínimo de conexiones en el pool
+            "maxIdleTimeMS": 60000,  # Tiempo máximo en milisegundos para una conexión inactiva
         }
     }
 }
