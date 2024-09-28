@@ -93,9 +93,18 @@ print(MONGO_URI)
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 DATABASES = {
-    
     'default': {
-         "ENGINE": "djongo",
+        "ENGINE": "djongo",
+        "NAME": MONGO_DB_NAME,
+        "CLIENT": {
+            "host": MONGO_HOST,
+            "port": int(MONGO_PORT),
+            "username": MONGO_USER,
+            "password": MONGO_PASSWORD,
+        },
+    },
+    'pooldb': {
+        "ENGINE": "djongo",
         "NAME": MONGO_DB_NAME,
         "CLIENT": {
             "host": MONGO_HOST,
