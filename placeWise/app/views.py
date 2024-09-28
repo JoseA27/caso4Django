@@ -20,12 +20,7 @@ from django.core.files.storage import default_storage
 """
 
 
-# Vista para obtener todas las propiedades
-def propiedades(request):
-    if request.method == 'GET':
-        
-        return None
-    
+# Vista para obtener todas las propiedades 
 @csrf_exempt
 def propiedades(request,id=0):
     if request.method=='GET':
