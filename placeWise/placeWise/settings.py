@@ -38,9 +38,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'app',
+    'rest_framework',
+    'corsheaders'
 ]
 
+CORSHEADERS_ALLOW_ALL_ORIGINS = True
+
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -71,16 +77,6 @@ TEMPLATES = [
 WSGI_APPLICATION = 'placeWise.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/5.1/ref/settings/#databases
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
-
-
 # Configuración MongoDB
 MONGO_HOST = os.getenv('DB_HOST_MONGO')
 print(MONGO_HOST)
@@ -93,11 +89,41 @@ print(MONGO_PASSWORD)
 MONGO_DB_NAME = 'PropiedadesDB'
 
 MONGO_URI = f"mongodb://{MONGO_USER}:{MONGO_PASSWORD}@{MONGO_HOST}:{MONGO_PORT}/{MONGO_DB_NAME}"
+print(MONGO_URI)
+# Database
+# https://docs.djangoproject.com/en/5.1/ref/settings/#databases
+DATABASES = {
+    
+    'default': {
+         "ENGINE": "djongo",
+        "NAME": MONGO_DB_NAME,
+        "CLIENT": {
+            "host": MONGO_HOST,
+            "port": int(MONGO_PORT),
+            "username": MONGO_USER,
+            "password": MONGO_PASSWORD,
+        }
+    }
+}
+print(DATABASES)
+
+"""
 # Configuración Redis
 REDIS_HOST = os.getenv('REDIS_HOST')
 print(REDIS_HOST)
 REDIS_PORT = os.getenv('REDIS_PORT')
 REDIS_DB = os.getenv('REDIS_DB')
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': f"redis://{REDIS_HOST}:{REDIS_PORT}/{REDIS_DB}",
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+        }
+    }
+}"""
+
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
 
