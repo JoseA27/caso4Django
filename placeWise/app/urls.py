@@ -4,4 +4,5 @@ from . import views
 
 urlpatterns = [
     path('propiedades/', views.propiedades, name='propiedades'),
+    path('propiedadesParametro/', views.propiedadesParametro, name='propiedadesParametro'),
 ]

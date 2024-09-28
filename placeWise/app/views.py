@@ -3,9 +3,6 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
 from django.http.response import JsonResponse
-
-
-
 from app.models import Propiedades
 from app.serializers import PropiedadesSerializer
 
@@ -24,6 +21,19 @@ from django.core.files.storage import default_storage
 @csrf_exempt
 def propiedades(request,id=0):
     if request.method=='GET':
-        propiedades = Propiedades.objects.all()
+        propiedades = Propiedades.objects.filter(Ciudad__in=['Alajuela','San José'])
         propiedades_serializer=PropiedadesSerializer(propiedades,many=True)
         return JsonResponse(propiedades_serializer.data,safe=False)
+    
+@csrf_exempt
+def propiedadesParametro(request,id=0):
+    if request.method == 'GET':
+        ciudades = request.GET.getlist('ciudad')  # Obtener una lista de ciudades desde los parámetros GET
+        if ciudades:
+            propiedades = Propiedades.objects.filter(Ciudad__in=ciudades)  # Filtrar propiedades en varias ciudades
+        else:
+            propiedades = Propiedades.objects.all()  # Si no hay ciudades en la solicitud, devolver todas las propiedades
+        
+        propiedades_serializer = PropiedadesSerializer(propiedades, many=True)
+        return JsonResponse(propiedades_serializer.data, safe=False)
+
